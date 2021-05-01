@@ -12,11 +12,10 @@ const MessagesReducer = (state, action) => {
 
   switch(type){
 
-    case MessagesActionTypes.Video.OPEN: {
+    case MessagesActionTypes.MessagesForVideo.OPEN: {
         const newVideos = [...state.allVideos]; //Create a state copy
-        newVideos[payload.indexIdentifier] = { // Manpulate specific indexed video status
-          ...newVideos[payload.indexIdentifier],
-          ...payload.data,
+        newVideos[payload.indexIdentifier - 1] = { // Manpulate specific indexed video status
+          ...newVideos[payload.indexIdentifier - 1],
           status: "connected",
         };
         // Return the new state
@@ -25,10 +24,10 @@ const MessagesReducer = (state, action) => {
           allVideos: newVideos,
         };
     }
-    case MessagesActionTypes.Video.CLOSE: {
+    case MessagesActionTypes.MessagesForVideo.CLOSE: {
         const newVideos = [...state.allVideos];  // Create a state copy
-        newVideos[payload.indexIdentifier] = { // Manpulate specific indexed video status
-          ...newVideos[payload.indexIdentifier],
+        newVideos[payload.indexIdentifier - 1] = { // Manpulate specific indexed video status
+          ...newVideos[payload.indexIdentifier - 1],
           status: "disconnected",
         };
         // Return the new state
@@ -37,22 +36,24 @@ const MessagesReducer = (state, action) => {
           allVideos: newVideos,
         };
     }
-    case MessagesActionTypes.Video.FAILURE: {
+    case MessagesActionTypes.MessagesForVideo.FAILURE: {
       const newVideos = [...state.allVideos];  // Create a state copy
-      newVideos[payload.indexIdentifier] = { // Manpulate specific indexed video status
-        ...newVideos[payload.indexIdentifier],
+      newVideos[payload.indexIdentifier - 1] = { // Manpulate specific indexed video status
+        ...newVideos[payload.indexIdentifier - 1],
         status: "failed",
       };
+      
       // Return the new state
       return {
         ...state,
         allVideos: newVideos,
       };
     }
-    case MessagesActionTypes.CreateVideo.RECIVED: {
+    case MessagesActionTypes.MessagesForVideo.RECIVED: {
       const newVideos = [...state.allVideos];  // Create a state copy
-      newVideos[payload.indexIdentifier] = { // Manpulate specific indexed video status
-        ...newVideos[payload.indexIdentifier],
+      newVideos[payload.indexIdentifier - 1] = { // Manpulate specific indexed video status
+        ...newVideos[payload.indexIdentifier - 1],
+        progress: payload.progress,
         status: "proccessing",
       };
       // Return the new state
@@ -61,10 +62,11 @@ const MessagesReducer = (state, action) => {
         allVideos: newVideos,
       };
     }
-    case MessagesActionTypes.CreateVideo.CONNECTING: {
+    case MessagesActionTypes.MessagesForVideo.CONNECTING: {
       const newVideos = [...state.allVideos];  // Create a state copy
-      newVideos[payload.indexIdentifier] = { // Manpulate specific indexed video status
-        ...newVideos[payload.indexIdentifier],
+      newVideos[payload.indexIdentifier - 1] = { // Manpulate specific indexed video status
+        ...newVideos[payload.indexIdentifier - 1],
+        progress: "0",
         status: "connecting",
       };
       // Return the new state
@@ -73,6 +75,11 @@ const MessagesReducer = (state, action) => {
         allVideos: newVideos,
       };
     }
+
+    default:
+      // Do nothing
+      return state;
+
   }
 
 }

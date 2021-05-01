@@ -1,4 +1,4 @@
-const BASE_URL = "https://localhost:8000/api/v1/"; // My server base url 
+const BASE_URL = "http://localhost:8000/"; // My server base url 
 
 const SSE_REQUEST = "SSE_REQUEST"; // This will be the identifier for the middlware to process that request.
 
